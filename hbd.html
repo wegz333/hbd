@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Countdown</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+  #countdown-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  #countdown {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  #startCountdown {
+    background-color: red;
+    color: white;
+    padding: 10px 20px; /* Increased button size */
+    font-size: 18px; /* Increased button font size */
+    border: none;
+    cursor: pointer;
+  }
+  #gif-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+  }
+</style>
+</head>
+<body>
+
+<div id="countdown-container">
+  <div id="countdown">Countdown: 10</div>
+  <button id="startCountdown">Start Countdown</button>
+</div>
+
+<div id="confetti" style="display: none;">
+  <audio id="celebration-sound" src="your-sound-file.mp3" preload="auto"></audio>
+</div>
+
+<div id="gif-container">
+  <!-- Replace 'your-gif-file.gif' with the path to your GIF file -->
+  <img id="gif" src="https://media1.tenor.com/m/-2-LxWGQWB4AAAAd/happy-birthday.gif" style="max-width: 100%; height: auto;">
+</div>
+
+<script>
+  // Countdown function
+  function startCountdown() {
+    var countdownElement = document.getElementById('countdown');
+    var countdown = 10;
+
+    var countdownInterval = setInterval(function() {
+      countdown--;
+      countdownElement.textContent = "Countdown: " + countdown;
+
+      if (countdown <= 0) {
+        clearInterval(countdownInterval);
+        countdownElement.style.display = 'none';
+        document.getElementById('confetti').style.display = 'block';
+        document.getElementById('celebration-sound').play();
+        document.getElementById('gif-container').style.display = 'block'; // Show the GIF container
+        showHearts();
+      }
+    }, 1000);
+  }
+
+  // Show hearts function
+  function showHearts() {
+    var heartContainer = document.getElementById('confetti');
+    var hearts = [];
+
+    for (var i = 0; i < 100; i++) { // You can adjust the number of hearts
+      var heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.innerText = '❤'; // Heart symbol
+      heart.style.left = Math.random() * window.innerWidth + 'px';
+      heart.style.animationDuration = Math.random() * 2 + 1 + 's'; // Randomize animation duration
+      hearts.push(heart);
+      heartContainer.appendChild(heart);
+    }
+
+    // Remove hearts after animation ends
+    setTimeout(function() {
+      hearts.forEach(function(heart) {
+        heart.remove();
+      });
+    }, 3000); // Adjust this timeout to match the animation duration
+  }
+
+  // Event listener for button click
+  document.getElementById('startCountdown').addEventListener('click', startCountdown);
+</script>
+
+</body>
+</html>
